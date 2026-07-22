@@ -54,7 +54,7 @@ export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
           style={{ filter: 'contrast(1.1) brightness(0.5) saturate(0.8)' }}
         />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-surface/70 via-surface/30 to-surface/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-surface/85 via-surface/40 to-surface/90" />
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, white 2px, white 4px)' }} />
     </div>
   )

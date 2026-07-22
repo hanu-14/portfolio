@@ -2,7 +2,7 @@ import type { FC } from 'react'
 import { Hero } from '../components/sections/Hero'
 import { Expertise } from '../components/sections/Expertise'
 import { Projects } from '../components/sections/Projects'
-import { Blog } from '../components/sections/Blog'
+import { Vault } from '../components/sections/Vault'
 import { Contact } from '../components/sections/Contact'
 
 const Home: FC = () => {
@@ -11,7 +11,7 @@ const Home: FC = () => {
       <Hero />
       <Expertise />
       <Projects />
-      <Blog />
+      <Vault />
       <Contact />
     </>
   )

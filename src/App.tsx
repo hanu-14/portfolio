@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from './components/layout/Layout'
 import Home from './pages/Home'
-import BlogIndex from './pages/BlogIndex'
-import BlogPost from './pages/BlogPost'
+import VaultIndex from './pages/VaultIndex'
+import VaultPost from './pages/VaultPost'
 
 function App() {
   return (
@@ -10,8 +10,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<BlogIndex />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/vault" element={<VaultIndex />} />
+          <Route path="/vault/:slug" element={<VaultPost />} />
         </Routes>
       </Layout>
     </BrowserRouter>
