@@ -13,6 +13,13 @@ export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+
+    const play = () => el.play().catch(() => {})
+    play()
+    document.addEventListener('click', play, { once: true })
+
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: document.body,
@@ -26,7 +33,10 @@ export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
       })
     })
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      document.removeEventListener('click', play)
+    }
   }, [])
 
   return (
@@ -39,6 +49,7 @@ export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
           loop
           playsInline
           preload="auto"
+          autoPlay
           className="h-full w-full object-cover"
           style={{ filter: 'contrast(1.1) brightness(0.5) saturate(0.8)' }}
         />
