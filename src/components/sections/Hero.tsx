@@ -2,30 +2,28 @@ import { type FC, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GlitchText } from '../ui/GlitchText'
-import { VideoBackground } from '../ui/VideoBackground'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export const Hero: FC = () => {
   const sectionRef = useRef<HTMLElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        '.hero-title span',
+        '.hero-title',
         { y: 80, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: 'power4.out' },
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power4.out' },
       )
       gsap.fromTo(
         '.hero-subtitle',
         { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, delay: 0.8, ease: 'power3.out' },
+        { y: 0, opacity: 1, duration: 1, delay: 0.6, ease: 'power3.out' },
       )
       gsap.fromTo(
         '.hero-cta',
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, delay: 1.4, ease: 'power3.out' },
+        { y: 0, opacity: 1, duration: 0.8, delay: 1, ease: 'power3.out' },
       )
     }, sectionRef)
 
@@ -39,8 +37,7 @@ export const Hero: FC = () => {
       ref={sectionRef}
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
     >
-      <VideoBackground src="/videos/shot-1.mp4" />
-      <div ref={textRef} className="container relative z-10 text-center">
+      <div className="container relative z-10 text-center">
         <div className="mb-4 font-mono text-sm text-crimson">
           {'>'} system.init()
         </div>
