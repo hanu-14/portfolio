@@ -2,6 +2,7 @@ import { type FC, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { GlitchText } from '../ui/GlitchText'
+import { VideoBackground } from '../ui/VideoBackground'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -38,6 +39,7 @@ export const Hero: FC = () => {
       ref={sectionRef}
       className="relative flex min-h-screen items-center justify-center overflow-hidden"
     >
+      <VideoBackground src="/videos/shot-1.mp4" />
       <div ref={textRef} className="container relative z-10 text-center">
         <div className="mb-4 font-mono text-sm text-crimson">
           {'>'} system.init()

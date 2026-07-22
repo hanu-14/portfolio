@@ -2,6 +2,7 @@ import { type FC, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Terminal } from '../ui/Terminal'
+import { VideoBackground } from '../ui/VideoBackground'
 import { socialLinks } from '../../lib/data'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -31,8 +32,9 @@ export const Contact: FC = () => {
   }, [])
 
   return (
-    <section id="contact" ref={sectionRef} className="section">
-      <div className="container">
+    <section id="contact" ref={sectionRef} className="section relative overflow-hidden">
+      <VideoBackground src="/videos/shot-4.mp4" overlay={false} />
+      <div className="container relative z-10">
         <div className="mb-16 text-center">
           <h2 className="text-4xl font-bold md:text-5xl">Contact</h2>
           <p className="mt-4 text-zinc-400">
