@@ -31,7 +31,7 @@ export const Contact: FC = () => {
   }, [])
 
   return (
-    <section id="contact" ref={sectionRef} className="section relative overflow-hidden">
+    <section id="contact" ref={sectionRef} data-video-index={3} className="section relative overflow-hidden">
       <div className="container relative z-10">
         <div className="mb-16 text-center">
           <h2 className="text-4xl font-bold md:text-5xl">Contact</h2>
@@ -80,8 +80,37 @@ export const Contact: FC = () => {
                   </a>
                 </p>
                 <p>
-                  <span className="text-zinc-500">pgp:</span>{' '}
-                  <span className="text-zinc-500">0x... (coming soon)</span>
+                  <span className="text-zinc-500">x:</span>{' '}
+                  <a
+                    href={socialLinks.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-crimson transition-colors hover:text-amber"
+                  >
+                    {socialLinks.twitter.replace('https://', '')}
+                  </a>
+                </p>
+                <p>
+                  <span className="text-zinc-500">hackerone:</span>{' '}
+                  <a
+                    href={socialLinks.hackerone}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-crimson transition-colors hover:text-amber"
+                  >
+                    {socialLinks.hackerone.replace('https://', '')}
+                  </a>
+                </p>
+                <p>
+                  <span className="text-zinc-500">bugcrowd:</span>{' '}
+                  <a
+                    href={socialLinks.bugcrowd}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-crimson transition-colors hover:text-amber"
+                  >
+                    {socialLinks.bugcrowd.replace('https://', '')}
+                  </a>
                 </p>
               </div>
               <p className="pt-2">

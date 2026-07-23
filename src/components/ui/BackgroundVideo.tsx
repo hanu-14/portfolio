@@ -1,16 +1,18 @@
-import { type FC, useRef, useEffect } from 'react'
+import { type FC, useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
 interface BackgroundVideoProps {
-  src: string
+  sources: string[]
 }
 
-export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
+export const BackgroundVideo: FC<BackgroundVideoProps> = ({ sources }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const indexRef = useRef(0)
 
   useEffect(() => {
     const el = videoRef.current
@@ -19,6 +21,30 @@ export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
     const play = () => el.play().catch(() => {})
     play()
     document.addEventListener('click', play, { once: true })
+
+    const sections = document.querySelectorAll('[data-video-index]')
+    if (sections.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let bestIndex = indexRef.current
+        let bestRatio = 0
+        for (const entry of entries) {
+          const idx = Number(entry.target.getAttribute('data-video-index'))
+          if (entry.intersectionRatio > bestRatio) {
+            bestRatio = entry.intersectionRatio
+            bestIndex = idx
+          }
+        }
+        if (bestIndex !== indexRef.current) {
+          indexRef.current = bestIndex
+          setActiveIndex(bestIndex)
+        }
+      },
+      { threshold: [0, 0.25, 0.5, 0.75, 1] },
+    )
+
+    sections.forEach((s) => observer.observe(s))
 
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
@@ -35,16 +61,27 @@ export const BackgroundVideo: FC<BackgroundVideoProps> = ({ src }) => {
 
     return () => {
       ctx.revert()
+      observer.disconnect()
       document.removeEventListener('click', play)
     }
   }, [])
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    const src = sources[activeIndex] ?? sources[0]
+    if (el.src.endsWith(src)) return
+    el.src = src
+    el.load()
+    el.play().catch(() => {})
+  }, [activeIndex, sources])
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
       <div ref={containerRef} className="absolute inset-0 will-change-transform">
         <video
           ref={videoRef}
-          src={src}
+          src={sources[0]}
           muted
           loop
           playsInline

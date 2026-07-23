@@ -43,7 +43,7 @@ export const Vault: FC = () => {
   if (posts.length === 0) return null
 
   return (
-    <section id="vault" ref={sectionRef} className="section">
+    <section id="vault" ref={sectionRef} data-video-index={3} className="section">
       <div className="container">
         <div className="mb-16 text-center">
           <span className="font-mono text-xs tracking-widest text-crimson uppercase">

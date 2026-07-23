@@ -13,7 +13,14 @@ interface LayoutProps {
 export const Layout: FC<LayoutProps> = ({ children }) => {
   return (
     <>
-      <BackgroundVideo src="/videos/shot-1.mp4" />
+      <BackgroundVideo
+        sources={[
+          '/videos/shot-1.mp4',
+          '/videos/shot-2.mp4',
+          '/videos/shot-3.mp4',
+          '/videos/shot-4.mp4',
+        ]}
+      />
       <Scanlines />
       <HudOverlay />
       <BackgroundMusic src="/audio/ambient.mp3" />

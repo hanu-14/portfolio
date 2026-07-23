@@ -31,7 +31,7 @@ export const Projects: FC = () => {
   }, [])
 
   return (
-    <section id="projects" ref={sectionRef} className="section">
+    <section id="projects" ref={sectionRef} data-video-index={2} className="section">
       <div className="container">
         <div className="mb-16 text-center">
           <h2 className="text-4xl font-bold md:text-5xl">Projects</h2>

@@ -46,7 +46,7 @@ export const Expertise: FC = () => {
   }, [])
 
   return (
-    <section id="expertise" ref={sectionRef} className="section">
+    <section id="expertise" ref={sectionRef} data-video-index={1} className="section">
       <div className="container">
         <div className="mb-16 text-center">
           <span className="font-mono text-xs tracking-widest text-crimson uppercase">
