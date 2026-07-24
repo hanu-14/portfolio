@@ -95,9 +95,8 @@ export const projects: Project[] = [
   },
   {
     title: 'KRUZE CRM',
-    description: 'End-to-end CRM platform for a UK-based moving services company. Co-founder of a small software venture handling backend development, infrastructure, system architecture, AI integration, deployment, and workflow automation. Full-stack production system built for real business operations.',
+    description: 'End-to-end CRM platform for a UK-based moving services company. Co-founder of a small software venture handling backend development, infrastructure, system architecture, AI integration, deployment, and workflow automation. Full-stack production system built for real business operations. [undisclosable]',
     tags: ['Full Stack', 'CRM', 'Backend', 'Infrastructure', 'DevOps', 'AI'],
-    github: 'undisclosable:private',
   },
   {
     title: 'Campus Trade',
