@@ -1,4 +1,5 @@
 import { type FC, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { projects } from '../../lib/data'
@@ -82,6 +83,17 @@ export const Projects: FC = () => {
                   </svg>
                   Source
                 </a>
+              )}
+              {project.link && (
+                <Link
+                  to={project.link}
+                  className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-zinc-500 transition-colors hover:text-crimson"
+                >
+                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  Report
+                </Link>
               )}
               {project.github === 'undisclosable' && (
                 <span className="mt-4 inline-flex items-center gap-1.5 font-mono text-xs text-amber-500">

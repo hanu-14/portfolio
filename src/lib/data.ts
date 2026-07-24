@@ -87,11 +87,13 @@ export const projects: Project[] = [
     title: 'AI Pentesting Assistant',
     description: 'AI-assisted penetration testing platform built on OpenCode with open-source LLMs. Automates reconnaissance, attack surface mapping, subdomain enumeration, endpoint discovery, API discovery, technology fingerprinting, HTTP analysis, security header evaluation, vulnerability triage, and report drafting. Docker-based, CLI-first, modular agents with human approval before reporting. Uses OpenCode orchestration for multi-model collaboration.',
     tags: ['Security', 'AI', 'Pentesting', 'Automation', 'Docker', 'OpenCode'],
+    github: 'undisclosable',
   },
   {
     title: 'CS-D-41GPU Vulnerability Analysis',
     description: 'Critical security audit of ISP-grade router firmware uncovering 8 vulnerabilities including backdoor system accounts sharing UID 0, hardcoded telnet credentials, and unauthenticated BusyBox root shell access. Also found: persistent writable filesystem, CGNAT deployment exposure, IPv6 attack surface, non-standard web authentication, and telnetd crash history. Responsible disclosure conducted.',
     tags: ['Security Research', 'Firmware', 'IoT', 'Reverse Engineering', 'Pentesting'],
+    link: '/vault/cs-d-41gpu-vulns',
   },
   {
     title: 'KRUZE CRM',
@@ -104,6 +106,12 @@ export const projects: Project[] = [
     description: 'A full-featured campus marketplace and community platform for GECT students. Buy, sell, and trade items within the campus community. Features include marketplace listings, department-wise community hub, KTU notifications, study corner, alumni network, announcements, AI campus assistant, and admin dashboard. Built with React, TypeScript, shadcn/ui, Supabase, and Tailwind CSS.',
     tags: ['React', 'TypeScript', 'Supabase', 'Marketplace', 'shadcn/ui', 'Tailwind CSS', 'Full Stack'],
     github: 'https://github.com/hanu-14/campustrade',
+  },
+  {
+    title: 'CodeContext',
+    description: 'CLI tool that extracts your entire codebase context — file tree, key files, git history — for AI assistants. One command gives AI full project context for better answers. Install via pip.',
+    tags: ['Python', 'CLI', 'AI', 'Developer Tools', 'Open Source', 'Productivity'],
+    github: 'https://github.com/hanu-14/codecontext',
   },
 ]
 
