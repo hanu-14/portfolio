@@ -17,9 +17,9 @@ const VaultIndex: FC = () => {
   const displayedPosts = showAll ? posts : posts.slice(0, 3)
 
   return (
-    <div className="min-h-screen flex flex-col justify-center pt-36 md:pt-40 pb-24">
+    <div className="min-h-screen pt-36 md:pt-40 pb-24">
       <div className="container">
-        <div className="mb-36 text-center -translate-y-8">
+        <div className="mb-16 text-center">
           <span className="font-mono text-xs tracking-widest text-crimson uppercase">
             {/*  ./vault */}
           </span>
