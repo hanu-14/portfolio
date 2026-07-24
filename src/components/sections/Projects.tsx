@@ -12,10 +12,9 @@ export const Projects: FC = () => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         '.project-card',
-        { y: 60, opacity: 0 },
+        { y: 60 },
         {
           y: 0,
-          opacity: 1,
           duration: 0.8,
           stagger: 0.15,
           ease: 'power3.out',
@@ -27,14 +26,19 @@ export const Projects: FC = () => {
       )
     }, sectionRef)
 
+    ScrollTrigger.refresh()
+
     return () => ctx.revert()
   }, [])
 
   return (
-    <section id="projects" ref={sectionRef} data-video-index={2} className="section">
+    <section id="projects" ref={sectionRef} className="section">
       <div className="container">
         <div className="mb-16 text-center">
-          <h2 className="text-4xl font-bold md:text-5xl">Projects</h2>
+          <span className="font-mono text-xs tracking-widest text-zinc-500 uppercase">
+            {'>'} ./projects
+          </span>
+          <h2 className="mt-2 text-4xl font-bold md:text-5xl">Projects</h2>
           <p className="mt-4 text-zinc-400">
             Selected work across security, AI, and infrastructure
           </p>

@@ -93,3 +93,195 @@ button {
   padding: 6rem 0;
   position: relative;
 }
+
+/* Glitch Text Styles */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.glitch-text::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff003c;
+  clip-path: inset(45% 0 50% 0);
+  animation: glitch 3s infinite linear alternate-reverse;
+}
+
+.glitch-text::after {
+  left: -2px;
+  text-shadow: -1px 0 #00e5ff, 0 1px #00e5ff;
+  clip-path: inset(80% 0 5% 0);
+  animation: glitch 2s infinite linear alternate-reverse;
+}
+
+/* Custom Markdown Prose Styles */
+.prose {
+  color: var(--color-foreground);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose h1 { font-size: 1.875rem; border-left: 3px solid var(--color-crimson); padding-left: 0.75rem; }
+.prose h2 { font-size: 1.5rem; border-left: 2px solid var(--color-crimson); padding-left: 0.5rem; }
+.prose h3 { font-size: 1.25rem; color: var(--color-foreground); }
+.prose h4 { font-size: 1.1rem; }
+
+.prose p {
+  margin-bottom: 1.25rem;
+  color: #c9c9d4;
+}
+
+.prose strong {
+  color: #fff;
+  font-weight: 600;
+}
+
+.prose em {
+  font-style: italic;
+  color: #a1a1b5;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px dashed rgba(220, 38, 38, 0.2);
+  margin: 2.5rem 0;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-crimson);
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: #a1a1b5;
+  background: rgba(220, 38, 38, 0.03);
+  margin: 1.5rem 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.prose ul {
+  list-style-type: square;
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: #c9c9d4;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 1.25rem;
+  color: #c9c9d4;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  background: rgba(220, 38, 38, 0.05);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  color: #fca5a5;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.prose pre {
+  background: rgba(10, 10, 15, 0.85);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.prose pre code {
+  background: transparent;
+  border: none;
+  color: #f3f4f6;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+.prose a {
+  color: var(--color-crimson);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(220, 38, 38, 0.4);
+  transition: all 0.2s ease;
+}
+
+.prose a:hover {
+  color: var(--color-amber);
+  border-bottom-color: var(--color-amber);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+
+.prose th, .prose td {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.prose th {
+  background: rgba(220, 38, 38, 0.05);
+  color: #fff;
+  font-weight: 600;
+}
+
+.prose tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Glassmorphic Button Animations */
+@keyframes button-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.2);
+    transform: translateY(0);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(220, 38, 38, 0.55);
+    transform: translateY(-4px);
+  }
+}
+
+.animate-glow-pulse {
+  animation: button-glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-glow-pulse-delayed {
+  animation: button-glow-pulse 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-glow-pulse:hover,
+.animate-glow-pulse-delayed:hover {
+  animation-play-state: paused;
+}

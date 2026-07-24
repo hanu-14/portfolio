@@ -1,96 +1,107 @@
 import { type FC, useRef, useEffect, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
 
 interface BackgroundVideoProps {
   sources: string[]
+  poster?: string
 }
 
-export const BackgroundVideo: FC<BackgroundVideoProps> = ({ sources }) => {
+const videoDescriptions: Record<string, { label: string; description: string; vttPath: string }> = {
+  '/videos/shot-1.mp4': {
+    label: 'Cyberpunk cityscape with neon lights and data streams flowing through digital landscape',
+    description: 'Animated background loop showing a cyberpunk-style futuristic cityscape with neon lights and data streams flowing through the digital landscape.',
+    vttPath: '/vtt/shot-1-description.vtt',
+  },
+  '/videos/shot-2.mp4': {
+    label: 'Wireframe 3D model rotating with glowing nodes and particle effects',
+    description: 'Animated background loop displaying a wireframe 3D model rotating with glowing nodes and particle effects, representing network connectivity and technology.',
+    vttPath: '/vtt/shot-2-description.vtt',
+  },
+  '/videos/shot-3.mp4': {
+    label: 'Abstract geometric shapes and holographic interface elements floating in dark space',
+    description: 'Animated background loop featuring abstract geometric shapes and holographic interface elements floating in a dark space with subtle glow effects.',
+    vttPath: '/vtt/shot-3-description.vtt',
+  },
+  '/videos/shot-4.mp4': {
+    label: 'Matrix-style digital rain effect with cascading code characters',
+    description: 'Animated background loop showing a matrix-style digital rain effect with cascading code characters in green against a dark background.',
+    vttPath: '/vtt/shot-4-description.vtt',
+  },
+}
+
+export const BackgroundVideo: FC<BackgroundVideoProps> = ({ sources, poster }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const indexRef = useRef(0)
+  const [showFallback, setShowFallback] = useState(false)
+
+  const currentSrc = sources[activeIndex] ?? sources[0] ?? ''
+  const currentDesc = (currentSrc ? videoDescriptions[currentSrc] : null) ?? videoDescriptions[sources[0]] ?? {
+    label: 'Background Video',
+    description: 'Tech visual background loop.',
+    vttPath: ''
+  }
+
+  const playCurrent = (el: HTMLVideoElement) => {
+    el.play()
+      .then(() => setShowFallback(false))
+      .catch(() => setShowFallback(true))
+  }
 
   useEffect(() => {
     const el = videoRef.current
     if (!el) return
 
-    const play = () => el.play().catch(() => {})
-    play()
-    document.addEventListener('click', play, { once: true })
+    playCurrent(el)
 
-    const sections = document.querySelectorAll('[data-video-index]')
-    if (sections.length === 0) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let bestIndex = indexRef.current
-        let bestRatio = 0
-        for (const entry of entries) {
-          const idx = Number(entry.target.getAttribute('data-video-index'))
-          if (entry.intersectionRatio > bestRatio) {
-            bestRatio = entry.intersectionRatio
-            bestIndex = idx
-          }
-        }
-        if (bestIndex !== indexRef.current) {
-          indexRef.current = bestIndex
-          setActiveIndex(bestIndex)
-        }
-      },
-      { threshold: [0, 0.25, 0.5, 0.75, 1] },
-    )
-
-    sections.forEach((s) => observer.observe(s))
-
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: document.body,
-        start: 'top top',
-        end: 'bottom bottom',
-        onUpdate: (self) => {
-          if (!containerRef.current) return
-          const y = self.progress * -80
-          containerRef.current.style.transform = `translateY(${y}px)`
-        },
-      })
-    })
+    const handleInteraction = () => playCurrent(el)
+    document.addEventListener('click', handleInteraction, { once: true })
+    document.addEventListener('touchstart', handleInteraction, { once: true })
 
     return () => {
-      ctx.revert()
-      observer.disconnect()
-      document.removeEventListener('click', play)
+      document.removeEventListener('click', handleInteraction)
+      document.removeEventListener('touchstart', handleInteraction)
     }
   }, [])
 
   useEffect(() => {
     const el = videoRef.current
     if (!el) return
-    const src = sources[activeIndex] ?? sources[0]
-    if (el.src.endsWith(src)) return
-    el.src = src
+
+    const onEnded = () => {
+      const nextIndex = (activeIndex + 1) % sources.length
+      setActiveIndex(nextIndex)
+    }
+
+    el.addEventListener('ended', onEnded)
+    return () => el.removeEventListener('ended', onEnded)
+  }, [activeIndex, sources.length])
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el || !currentSrc) return
+    if (el.src.endsWith(currentSrc)) return
+    el.src = currentSrc
     el.load()
-    el.play().catch(() => {})
-  }, [activeIndex, sources])
+    playCurrent(el)
+  }, [currentSrc])
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-      <div ref={containerRef} className="absolute inset-0 will-change-transform">
+    <div className="pointer-events-none fixed inset-0 -z-20 overflow-hidden" role="presentation" aria-hidden="true">
+      {showFallback && poster ? (
+        <img src={poster} alt="" className="h-full w-full object-cover" />
+      ) : (
         <video
           ref={videoRef}
-          src={sources[0]}
           muted
-          loop
           playsInline
           preload="auto"
-          autoPlay
           className="h-full w-full object-cover"
           style={{ filter: 'contrast(1.1) brightness(0.5) saturate(0.8)' }}
-        />
-      </div>
+          aria-label={currentDesc.label}
+        >
+          <track kind="descriptions" src={currentDesc.vttPath} srcLang="en" label="Video description" />
+        </video>
+      )}
+      <div className="sr-only" role="status" aria-live="polite">{currentDesc.description}</div>
       <div className="absolute inset-0 bg-gradient-to-b from-surface/85 via-surface/40 to-surface/90" />
       <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, white 2px, white 4px)' }} />
     </div>

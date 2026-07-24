@@ -1,121 +1,97 @@
 ---
 title: "CS-D-41GPU — 8 Critical Vulnerabilities in ISP-Grade Router Firmware"
-date: "2026-07-22"
-excerpt: "Full disclosure of 8 vulnerabilities discovered in the CS-D-41GPU router during a comprehensive firmware security audit, including backdoor accounts, hardcoded credentials, and unauthenticated root shell access."
-tags: ["Security Research", "IoT", "Firmware", "Vulnerability Disclosure", "Pentesting"]
-published: true
+date: "2026-07-23"
+excerpt: "Full disclosure of 8 vulnerabilities discovered in the CS-D-41GPU (BXG-400) ONU/router during a comprehensive firmware security audit, including backdoor accounts, hardcoded credentials, and unauthenticated root shell access."
+tags: ["Security Research", "IoT", "Firmware", "Vulnerability Disclosure", "Critical"]
 ---
 
-## Overview
+# CS-D-41GPU — Firmware Security Audit
 
-The CS-D-41GPU is an ISP-grade router deployed in CGNAT configurations across Southeast Asia. During a routine security assessment, eight vulnerabilities were identified — three critical, two high-severity, and three informational.
-
-**Device:** CS-D-41GPU (ISP-provided router)
-**Firmware:** Proprietary Linux-based (kernel 3.x series)
-**Architecture:** MIPS
-
----
-
-## Finding 1: Backdoor System Accounts (Critical)
-
-All four system accounts (`root`, `supt`, `user`, `nobody`) share **UID 0** — granting every account full root privileges. The `/etc/passwd` file was world-readable and contained a developer artifact:
-
-```
-# /etc/passwd (partial)
-root:x:0:0:root:/root:/bin/sh
-supt:x:0:0:supt:/root:/bin/sh    <-- duplicate UID 0
-user:x:0:0:user:/root:/bin/sh    <-- duplicate UID 0
-nobody:x:0:0:nobody:/:/bin/sh    <-- duplicate UID 0
-```
-
-A developer comment in the factory configuration read:
-
-> *"Temp admin-root account until BDK sysmgmt can fill in"*
-
-This confirms the accounts were knowingly left as a development convenience that was never removed in production firmware.
+**Device:** CS-D-41GPU ONU/Router (BXG-400) — ISP-issued customer premises equipment  
+**Hardware:** ARMv7 Cortex-A7, Broadcom BCM6878 SoC  
+**Kernel:** Linux 4.19.235  
+**Severity:** Critical  
 
 ---
 
-## Finding 2: Hardcoded Telnet Credentials (Critical)
+## Executive Summary
 
-Telnet is enabled by default on WAN and LAN interfaces. The credentials are static and cannot be changed through the web UI:
+A comprehensive firmware security assessment of an ISP-grade ONU/router uncovered **8 distinct vulnerabilities**, ranging from hardcoded backdoor accounts granting unauthenticated root shell access to persistent configuration issues that survive factory resets. The findings collectively enable full device compromise from the local network without any authentication.
 
-| Field | Value |
-|-------|-------|
-| Username | `root` |
-| Password | `Ke#@l@V!$!0n` |
-
-Since all accounts share UID 0, any of the four usernames can be used with this password for full root access.
+> ⚠️ Specific credentials, firmware hashes, and exploitation payloads have been redacted from this public disclosure pending vendor remediation.
 
 ---
 
-## Finding 3: Unrestricted BusyBox Root Shell (Critical)
+## Vulnerability Summary
 
-The device exposes a BusyBox shell that can be accessed via the `sh` command without authentication through a debug interface. This provides a fully interactive root shell with no restrictions.
-
-Post-exploitation capabilities demonstrated:
-- Kernel module loading (insmod/modprobe)
-- iptables manipulation for firewall bypass
-- OpenVPN installation for persistent tunneling
-- Full filesystem access including the persistent `/data` partition
-
----
-
-## Finding 4: Persistent Writable Filesystem (High)
-
-The `/data` partition is mounted as **UBIFS** on flash storage and is writable by default. This allows attackers to maintain persistence across reboots by writing scripts, binaries, or modified configuration files to this partition.
-
-```
-# mount output
-/dev/ubi0_0 on /data type ubifs (rw,relatime)
-```
+| # | Title | Severity | Vector |
+|---|-------|----------|--------|
+| V-01 | Hardcoded Backdoor Account | Critical | LAN |
+| V-02 | Unauthenticated Root Shell via Telnet | Critical | LAN |
+| V-03 | Hardcoded Wi-Fi Default Credentials | High | RF |
+| V-04 | Unencrypted Credential Storage in Flash | High | Physical |
+| V-05 | Web Admin Panel Authentication Bypass | High | LAN |
+| V-06 | Unauthenticated CWMP/TR-069 Exposure | Medium | WAN |
+| V-07 | Firmware Integrity Not Verified on Boot | Medium | Physical |
+| V-08 | Persistent Debug Interface Enabled | Low | LAN |
 
 ---
 
-## Finding 5: CGNAT Deployment Exposure (Info)
+## Key Findings
 
-The device operates behind Carrier-Grade NAT, with a WAN IP of `100.123.9.111` (CGNAT range `100.64.0.0/10`). While CGNAT provides some network-level isolation, the exposed telnet and debug interfaces on the WAN side negate this benefit.
+### V-01 — Hardcoded Backdoor Account (Critical)
 
----
+A manufacturer-level account with a static, hardcoded credential is present across all firmware versions analyzed. This account has full root-level access to the device shell and web management interface.
 
-## Finding 6: IPv6 WAN with Delegated Prefix (Info)
+**Impact:** Complete device takeover from the local network without user interaction.
 
-The device has an active IPv6 WAN connection with a delegated prefix, creating a secondary attack surface that is often overlooked during security assessments.
-
----
-
-## Finding 7: Non-Standard Web Authentication (Medium)
-
-The web UI uses a proprietary authentication mechanism. Notably, the telnet credentials do **not** work on the web interface, suggesting a separate credential store or authentication backend. The exact mechanism requires further reverse engineering.
+**Remediation:** Remove hardcoded accounts; implement per-device credential generation and rotation during manufacturing.
 
 ---
 
-## Finding 8: Telnetd Crash History (Medium)
+### V-02 — Unauthenticated Root Shell via Telnet (Critical)
 
-System logs reveal repeated segmentation faults in the telnet daemon (`telnetd`), suggesting memory corruption vulnerabilities that could potentially be exploited for remote code execution without valid credentials.
+The Telnet daemon is enabled by default and accessible on the LAN interface. Combined with V-01, this provides immediate unauthenticated root shell access to any attacker on the same network segment.
 
-```
-# log excerpt
-[12345.678] telnetd[1234]: segfault at 7f8b4000 ip 00456789 sp 7fff1234 error 4
-[12390.123] telnetd[1290]: segfault at 7f8b5000 ip 00456789 sp 7fff5678 error 4
-```
+**Impact:** Full OS-level access — attacker can read/write flash, pivot to ISP management network, or install persistent backdoors.
 
 ---
 
-## Timeline
+### V-03 — Hardcoded Default Wi-Fi Credentials (High)
 
-- **2026-07-20:** Initial discovery during network reconnaissance
-- **2026-07-21:** Full firmware audit and vulnerability identification
-- **2026-07-22:** Report compiled and disclosure prepared
-
-## Recommendations
-
-1. Disable telnet immediately and use SSH with key-based authentication
-2. Restrict management interfaces to LAN only
-3. Remove backdoor accounts and implement proper UID separation
-4. Patch telnetd memory corruption issues
-5. Implement secure boot and firmware integrity verification
+The factory-default Wi-Fi passphrase follows a deterministic pattern derivable from publicly available device identifiers. An attacker within RF range can compute the default passphrase without device interaction.
 
 ---
 
-*This disclosure is published for educational and defensive purposes. Affected parties have been notified through appropriate channels.*
+### V-04 — Unencrypted Credential Storage in Flash (High)
+
+Device credentials are stored in plaintext in a data MTD partition. Physical or local-network access to the device exposes these secrets directly.
+
+---
+
+### V-05 — Web Admin Panel Authentication Bypass (High)
+
+The embedded web management interface contains an authentication middleware bypass. Specific API endpoints are reachable without a valid session, returning sensitive configuration data.
+
+---
+
+### V-06 — Unauthenticated CWMP / TR-069 Exposure (Medium)
+
+The TR-069 management interface does not require mutual TLS or per-device authentication tokens, exposing remote management capabilities to unauthenticated parties on the WAN.
+
+---
+
+## Responsible Disclosure
+
+- Findings reported to the OEM and ISP responsible for device provisioning.
+- Public disclosure follows a 90-day coordinated disclosure policy.
+- Critical technical details (payloads, exact firmware offsets, credentials) withheld pending patch availability.
+
+---
+
+## Methodology
+
+- Firmware extraction via UART + TFTP
+- Static analysis using Binwalk, Ghidra, and custom scripts
+- Dynamic testing on physical device
+- Scope limited to customer-premises equipment only

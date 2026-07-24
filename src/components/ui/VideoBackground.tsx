@@ -9,21 +9,33 @@ interface VideoBackgroundProps {
 export const VideoBackground: FC<VideoBackgroundProps> = ({ src, className = '', overlay = true }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
 
+  const attemptPlay = () => {
+    const el = videoRef.current
+    if (!el) return
+
+    el.play().catch(() => {})
+  }
+
   useEffect(() => {
     const el = videoRef.current
     if (!el) return
+
+    el.muted = true
+    el.playsInline = true
+
     const observer = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            el.play().catch(() => {})
+            attemptPlay()
           } else {
             el.pause()
           }
-        }
+        })
       },
-      { threshold: 0.3 },
+      { threshold: 0.3 }
     )
+
     observer.observe(el)
     return () => observer.disconnect()
   }, [])

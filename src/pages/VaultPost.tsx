@@ -37,7 +37,7 @@ const VaultPost: FC = () => {
   const severityLabel = post.tags.find(t => ['critical', 'high', 'medium', 'info'].includes(t.toLowerCase())) || 'case'
 
   return (
-    <article className="pt-24">
+    <article className="pt-48 md:pt-56 pb-20">
       <div className="container">
         <div className="mx-auto max-w-3xl">
           <Link

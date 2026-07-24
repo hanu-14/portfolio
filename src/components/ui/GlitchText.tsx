@@ -8,7 +8,7 @@ interface GlitchTextProps extends HTMLAttributes<HTMLHeadingElement> {
 export const GlitchText: FC<GlitchTextProps> = ({ text, as: Tag = 'h1', className = '', ...props }) => {
   return (
     <Tag
-      className={`relative inline-block ${className}`}
+      className={`glitch-text relative inline-block ${className}`}
       data-text={text}
       {...props}
     >

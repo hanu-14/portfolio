@@ -33,7 +33,7 @@ export const BackgroundMusic: FC<BackgroundMusicProps> = ({ src, volume = 0.15 }
       <audio ref={audioRef} src={src} loop muted={muted} />
       <button
         onClick={() => setMuted(!muted)}
-        className="fixed bottom-6 right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-zinc-800 bg-surface/80 text-zinc-500 backdrop-blur-sm transition-colors hover:border-crimson/30 hover:text-crimson"
+        className="fixed bottom-6 left-6 z-50 flex h-10 w-10 items-center justify-center rounded-full border border-zinc-800 bg-surface/80 text-zinc-500 backdrop-blur-sm transition-colors hover:border-crimson/30 hover:text-crimson"
         aria-label={muted ? 'Unmute music' : 'Mute music'}
       >
         {muted ? (
