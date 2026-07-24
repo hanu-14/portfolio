@@ -77,7 +77,7 @@ export const projects: Project[] = [
   },
   {
     title: 'LinkedIn Automation Engine',
-    description: 'Adaptive autonomous content engineering system for professional social platforms. Features AI-generated post creation, automated image generation, screenshot analysis, browser automation with Playwright, human-like interaction timing, retry mechanisms, session persistence, and multi-stage publishing pipeline. Designed for engineering reliability against constantly changing social platforms — solving dynamic UI changes, timing optimization, browser synchronization, and authentication persistence.',
+    description: 'The only AI-powered automation you can run completely for free — harnessing CLI AI tools free tier via stdin/commands. Playwright-based LinkedIn automation that posts, comments, and scans feeds with anti-detection. Personally used and verified to dramatically increase impressions — discontinued after learning it violates LinkedIn ToS. No guarantee it works; LinkedIn UI changes break it entirely.',
     tags: ['Automation', 'Playwright', 'AI', 'DevOps', 'Browser Automation', 'Content'],
     github: 'https://github.com/hanu-14/linkedin-automation-bot',
   },
