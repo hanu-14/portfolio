@@ -63,6 +63,7 @@ export const projects: Project[] = [
     title: 'Battery-Free Biometric System',
     description: 'A self-powered biometric authentication system that eliminates battery dependency entirely by harvesting ambient energy through piezoelectric transducers and RF energy capture. The system converts mechanical pressure and ambient RF signals into sufficient power to drive a low-power fingerprint or capacitive sensor, a microcontroller, and a short-range communication module. Designed for deployment in access control systems, IoT edge nodes, and remote installations where battery maintenance is impractical. The core energy management circuit ensures stable operation under variable harvesting conditions. A provisional patent has been filed for the core energy-conversion and authentication mechanism. This project sits at the intersection of Electrical Engineering, embedded security, and hardware innovation.',
     tags: ['Energy Harvesting', 'Biometrics', 'Patent', 'Embedded Systems', 'IoT Security', 'Piezoelectric', 'RF', 'EE'],
+    github: 'https://github.com/hanu-14/battery-free-biometric-patent',
   },
   {
     title: 'PhotonIQ',
