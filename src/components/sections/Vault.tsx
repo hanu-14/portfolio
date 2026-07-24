@@ -61,7 +61,7 @@ export const Vault: FC = () => {
   if (allPosts.length === 0) return null
 
   return (
-    <section id="vault" ref={sectionRef} className="section min-h-screen pt-36 md:pt-40 pb-24">
+    <section id="vault" ref={sectionRef} className="section pb-24">
       <div className="container">
         <div className="mb-16 text-center">
           <span className="font-mono text-xs tracking-widest text-zinc-500 uppercase">

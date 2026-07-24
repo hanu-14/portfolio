@@ -1,4 +1,4 @@
-import { type FC, useState } from 'react'
+import { type FC, useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { getAllPosts } from '../lib/blog'
 
@@ -13,28 +13,37 @@ const severityColor = (tags: string[]) => {
 const VaultIndex: FC = () => {
   const posts = getAllPosts()
   const [showAll, setShowAll] = useState(false)
+  const listRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (showAll && listRef.current) {
+      listRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [showAll])
 
   const displayedPosts = showAll ? posts : posts.slice(0, 3)
 
   return (
-    <div className="min-h-screen pt-36 md:pt-40 pb-24">
+    <div className="pt-36 md:pt-40 pb-24">
       <div className="container">
-        <div className="mb-16 text-center">
-          <span className="font-mono text-xs tracking-widest text-crimson uppercase">
-            {/*  ./vault */}
-          </span>
-          <h1 className="mt-2 text-4xl font-bold md:text-5xl">Vault</h1>
-          <p className="mt-4 text-zinc-400">
-            Classified research — vulnerability disclosures, security findings, and technical analysis
-          </p>
-        </div>
+        {!showAll && (
+          <div className="mb-16 text-center">
+            <span className="font-mono text-xs tracking-widest text-crimson uppercase">
+              {/*  ./vault */}
+            </span>
+            <h1 className="mt-2 text-4xl font-bold md:text-5xl">Vault</h1>
+            <p className="mt-4 text-zinc-400">
+              Classified research — vulnerability disclosures, security findings, and technical analysis
+            </p>
+          </div>
+        )}
 
         {posts.length === 0 ? (
           <div className="py-20 text-center">
             <TerminalEmpty />
           </div>
         ) : (
-          <div className="mx-auto grid max-w-4xl gap-5">
+          <div ref={listRef} className="mx-auto grid max-w-4xl gap-5">
             {displayedPosts.map((post) => {
               const severity = severityColor(post.tags)
               return (
@@ -71,17 +80,29 @@ const VaultIndex: FC = () => {
           </div>
         )}
 
-        {!showAll && posts.length > 3 && (
+        {posts.length > 3 && (
           <div className="mt-8 text-center">
-            <button
-              onClick={() => setShowAll(true)}
-              className="inline-flex items-center gap-2 font-mono text-sm text-zinc-400 transition-colors hover:text-crimson border border-zinc-800 bg-surface-lighter/55 rounded-lg px-6 py-2.5 shadow-[-3px_-3px_10px_rgba(255,255,255,0.02),3px_3px_10px_rgba(0,0,0,0.6)] hover:shadow-[inset_-2px_-2px_6px_rgba(255,255,255,0.01),inset_2px_2px_6px_rgba(0,0,0,0.7)] cursor-pointer"
-            >
-              Show all reports
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+            {!showAll ? (
+              <button
+                onClick={() => setShowAll(true)}
+                className="inline-flex items-center gap-2 font-mono text-sm text-zinc-400 transition-colors hover:text-crimson border border-zinc-800 bg-surface-lighter/55 rounded-lg px-6 py-2.5 shadow-[-3px_-3px_10px_rgba(255,255,255,0.02),3px_3px_10px_rgba(0,0,0,0.6)] hover:shadow-[inset_-2px_-2px_6px_rgba(255,255,255,0.01),inset_2px_2px_6px_rgba(0,0,0,0.7)] cursor-pointer"
+              >
+                Show all reports
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowAll(false)}
+                className="inline-flex items-center gap-2 font-mono text-sm text-zinc-400 transition-colors hover:text-crimson border border-zinc-800 bg-surface-lighter/55 rounded-lg px-6 py-2.5 shadow-[-3px_-3px_10px_rgba(255,255,255,0.02),3px_3px_10px_rgba(0,0,0,0.6)] hover:shadow-[inset_-2px_-2px_6px_rgba(255,255,255,0.01),inset_2px_2px_6px_rgba(0,0,0,0.7)] cursor-pointer"
+              >
+                Show less
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              </button>
+            )}
           </div>
         )}
       </div>
