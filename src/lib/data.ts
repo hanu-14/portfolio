@@ -115,7 +115,7 @@ export const socialLinks = {
 
 export const bio = {
   name: 'Mohammed Hanan',
-  tagline: 'I engineer systems. I break them to make them stronger. AI, infrastructure, security — I build across all three.',
+  tagline: 'the wannabe polymath',
   company: 'Co-Founder of CosmIQ — Build • Automate • Evolve',
   summary: "Electrical & Electronics Engineering student at Government Engineering College Thrissur (GECT), India, building AI systems, autonomous agents, backend infrastructure, computer vision platforms, and security research tools. I design complete systems—from architecture and deployment to automation and AI integration—with a strong focus on open-source technologies and practical engineering.",
   education: 'B.Tech Electrical & Electronics Engineering — Government Engineering College Thrissur (GECT), India',
