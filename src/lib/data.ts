@@ -68,6 +68,7 @@ export const projects: Project[] = [
     title: 'PhotonIQ',
     description: 'AI-powered visual intelligence platform transforming CCTV and RTSP streams into searchable intelligence. Users interact via natural language: "Show everyone carrying a blue backpack who entered through Gate 3 between 2 PM and 5 PM." Nearing pilot stage. Core capabilities include RTSP stream ingestion, object detection, multi-camera processing, semantic video search, timeline search, event detection, person and object tracking, and AI-powered forensic analysis. Built with RT-DETR, Computer Vision, Vision AI, LLM integration, Python, and Docker. Long-term vision: enterprise platform for smart cities, airports, warehouses, hospitals, and industrial surveillance.',
     tags: ['Computer Vision', 'AI', 'RT-DETR', 'LLM', 'Docker', 'Python', 'Surveillance'],
+    github: 'https://github.com/hanu-14/photoniq',
   },
   {
     title: 'Atlas',
