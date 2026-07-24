@@ -97,9 +97,10 @@ export const projects: Project[] = [
     tags: ['Full Stack', 'CRM', 'Backend', 'Infrastructure', 'DevOps', 'AI'],
   },
   {
-    title: 'Campus Marketplace',
-    description: 'Student-only marketplace platform with institutional email verification. Enables secure peer-to-peer exchange of items within college campuses with a focus on sustainability through reuse. Features college email verification, secure authentication, and sustainability-focused item reuse.',
-    tags: ['Full Stack', 'Authentication', 'Marketplace', 'Web Dev'],
+    title: 'Campus Trade',
+    description: 'A full-featured campus marketplace and community platform for GECT students. Buy, sell, and trade items within the campus community. Features include marketplace listings, department-wise community hub, KTU notifications, study corner, alumni network, announcements, AI campus assistant, and admin dashboard. Built with React, TypeScript, shadcn/ui, Supabase, and Tailwind CSS.',
+    tags: ['React', 'TypeScript', 'Supabase', 'Marketplace', 'shadcn/ui', 'Tailwind CSS', 'Full Stack'],
+    github: 'https://github.com/hanu-14/campustrade',
   },
 ]
 
