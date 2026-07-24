@@ -79,6 +79,7 @@ export const projects: Project[] = [
     title: 'LinkedIn Automation Engine',
     description: 'Adaptive autonomous content engineering system for professional social platforms. Features AI-generated post creation, automated image generation, screenshot analysis, browser automation with Playwright, human-like interaction timing, retry mechanisms, session persistence, and multi-stage publishing pipeline. Designed for engineering reliability against constantly changing social platforms — solving dynamic UI changes, timing optimization, browser synchronization, and authentication persistence.',
     tags: ['Automation', 'Playwright', 'AI', 'DevOps', 'Browser Automation', 'Content'],
+    github: 'https://github.com/hanu-14/linkedin-automation-bot',
   },
   {
     title: 'AI Pentesting Assistant',
