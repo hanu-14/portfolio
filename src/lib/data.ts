@@ -74,6 +74,7 @@ export const projects: Project[] = [
     title: 'Atlas',
     description: 'Autonomous AI engineering platform running on personal VPS. Automates code generation, repository analysis, engineering assistance, documentation, and open-source contribution support through specialized AI agents. Human-in-the-loop approval before any external action. Features AI-assisted development and local infrastructure orchestration. Long-term vision: collaborative AI engineering environment where specialized agents assist throughout the software development lifecycle.',
     tags: ['AI Agents', 'Automation', 'Infrastructure', 'Open Source', 'VPS', 'DevOps'],
+    github: 'https://github.com/hanu-14/atlas',
   },
   {
     title: 'LinkedIn Automation Engine',
